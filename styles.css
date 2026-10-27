@@ -21,7 +21,6 @@
   --sev-med: #ffb547;
   --sev-low: #3a4759;
   --ok: #3ddc97;
-  --code-bg: #0a111c;
   --shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.9);
 
   /* Shift colours, used only by the Shift Roster preview */
@@ -712,13 +711,13 @@ a { color: var(--accent); text-underline-offset: 0.2em; }
   gap: 20px;
 }
 @media (min-width: 900px) {
-  .build-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .build-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .build-wide { grid-column: 1 / -1; }
 }
 
 .build {
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
   padding: clamp(22px, 3vw, 32px);
 }
@@ -733,30 +732,13 @@ a { color: var(--accent); text-underline-offset: 0.2em; }
 }
 
 .build-wide {
+  display: grid;
   gap: 28px;
 }
 @media (min-width: 900px) {
   .build-wide { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: center; }
 }
-@media (min-width: 900px) {
-  .build-wide:has(.code-card) { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); }
-}
 .build-text { display: grid; gap: 14px; align-content: start; }
-
-.mini-stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin: 6px 0 0;
-}
-.mini-stats div {
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--bg);
-}
-.mini-stats dt { color: var(--ink-3); font-size: 0.8125rem; }
-.mini-stats dd { margin: 2px 0 0; font-weight: 650; }
 
 /* Alert-noise chart */
 .noise-readout { display: grid; margin-top: 4px; }
@@ -826,49 +808,6 @@ a { color: var(--accent); text-underline-offset: 0.2em; }
 .sev-high { background: var(--sev-high); }
 .sev-med { background: var(--sev-med); }
 .sev-low { background: var(--sev-low); }
-
-/* KQL code card (always dark, like a query editor) */
-.code-card {
-  margin: 0;
-  min-width: 0;
-  border: 1px solid rgba(140, 170, 210, 0.2);
-  border-radius: 14px;
-  background: var(--code-bg);
-  color: #d8e2ef;
-  overflow: hidden;
-}
-.code-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-bottom: 1px solid rgba(140, 170, 210, 0.16);
-  color: #8392a7;
-  font-family: var(--mono);
-  font-size: 0.75rem;
-}
-.dots { display: inline-flex; gap: 6px; }
-.dots i { width: 9px; height: 9px; border-radius: 50%; background: #2a3546; }
-.code-card pre {
-  margin: 0;
-  padding: 16px;
-  overflow-x: auto;
-  font-family: var(--mono);
-  font-size: 0.8125rem;
-  line-height: 1.7;
-  tab-size: 2;
-}
-@media (max-width: 600px) { .code-card pre { font-size: 0.75rem; } }
-.code-card .c { color: #6b7a8f; }
-.code-card .k { color: #7fb2ff; }
-.code-card .t { color: #c6a8ff; }
-.code-card .s { color: #7ee0b5; }
-.code-card figcaption {
-  padding: 10px 16px 12px;
-  border-top: 1px solid rgba(140, 170, 210, 0.16);
-  color: #8392a7;
-  font-size: 0.75rem;
-}
 
 .award {
   display: flex;

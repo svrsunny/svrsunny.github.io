@@ -204,28 +204,10 @@
               </figure>
             </article>
 
-            <article class="build build-wide spotlight" data-reveal>
-              <div class="build-text">
-                <h4>Email-security triage framework</h4>
-                <p>A reusable KQL framework that joins every signal about a message on its NetworkMessageId (sender, authentication, URLs, attachments, clicks, remediation and user reports) and adds risk indicators and a score-based verdict.</p>
-                <dl class="mini-stats">
-                  <div><dt>Triage per alert</dt><dd>5–15 min to 1 min</dd></div>
-                  <div><dt>Volume handled</dt><dd>50–70+ alerts per shift</dd></div>
-                </dl>
-              </div>
-              <figure class="code-card">
-                <div class="code-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>email_triage.kql</span></div>
-<pre><code><span class="c">// Simplified sketch of the approach</span>
-<span class="k">let</span> msg = <span class="s">"&lt;NetworkMessageId&gt;"</span>;
-<span class="t">EmailEvents</span>
-| <span class="k">where</span> NetworkMessageId == msg
-| <span class="k">join kind</span>=leftouter <span class="t">EmailUrlInfo</span> <span class="k">on</span> NetworkMessageId
-| <span class="k">join kind</span>=leftouter <span class="t">EmailAttachmentInfo</span> <span class="k">on</span> NetworkMessageId
-| <span class="k">join kind</span>=leftouter <span class="t">UrlClickEvents</span> <span class="k">on</span> NetworkMessageId
-| <span class="k">join kind</span>=leftouter <span class="t">EmailPostDeliveryEvents</span> <span class="k">on</span> NetworkMessageId
-<span class="c">// then: risk indicators, exposure and a verdict</span></code></pre>
-                <figcaption>Illustrative only, using Defender XDR advanced hunting tables.</figcaption>
-              </figure>
+            <article class="build spotlight" data-reveal>
+              <h4>Email-security triage framework</h4>
+              <p>A reusable investigation framework that brings everything about a suspicious email into one view: sender and authentication results, links, attachments, user clicks, remediation and user reports. It adds automated risk indicators and a score-based verdict, and covers reported emails, malicious URLs, URL clicks and AiTM phishing.</p>
+              <p class="build-metric">Cut initial triage from 5–15 minutes to 1 minute per alert, across 50–70+ email alerts per shift.</p>
             </article>
 
             <article class="build spotlight" data-reveal>
