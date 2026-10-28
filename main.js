@@ -512,6 +512,30 @@
     }, 0.5);
   }
 
+  /* ---------- Film: poster first, YouTube loads on play ---------- */
+
+  var filmLink = document.querySelector(".film-play");
+  if (filmLink) {
+    var tallQuery = window.matchMedia("(max-width: 767px) and (orientation: portrait)");
+    filmLink.addEventListener("click", function (event) {
+      event.preventDefault();
+      var tall = tallQuery.matches;
+      var id = tall ? filmLink.dataset.tallId : filmLink.dataset.wideId;
+      var film = filmLink.closest(".film");
+      var frame = filmLink.parentElement;
+      var iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&playsinline=1";
+      iframe.title = "Signal, a short film about Sanjeev Varma Ragula's work";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      // Keep the frame shape that matches the chosen cut, even if the phone rotates later.
+      film.classList.add(tall ? "is-tall" : "is-wide");
+      frame.replaceChild(iframe, filmLink);
+      iframe.focus();
+    });
+  }
+
   /* ---------- Toolkit marquee ---------- */
 
   var track = document.querySelector(".marquee-track");
