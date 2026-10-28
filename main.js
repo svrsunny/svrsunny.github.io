@@ -525,7 +525,7 @@
       var frame = filmLink.parentElement;
       var iframe = document.createElement("iframe");
       iframe.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&playsinline=1";
-      iframe.title = "Signal, a short film about Sanjeev Varma Ragula's work";
+      iframe.title = "Sanjeev Varma Ragula: my work in two minutes";
       iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
       iframe.allowFullscreen = true;
       iframe.referrerPolicy = "strict-origin-when-cross-origin";
