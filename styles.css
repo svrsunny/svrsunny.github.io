@@ -1,3 +1,27 @@
+/* ---------- Fonts (served from this site, no third-party requests) ---------- */
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/assets/fonts/geist-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("/assets/fonts/geist-mono-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/instrument-serif-latin.woff2") format("woff2");
+}
+
 /* ---------- Tokens ----------
    Midnight editorial: one ink, one paper, and a single signal colour.
    The signal colour is reserved for the things that matter. */
@@ -933,6 +957,20 @@ button { font: inherit; }
   font-family: var(--mono);
   font-size: 0.75rem;
 }
+.verify {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  margin-left: auto;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--signal);
+  text-underline-offset: 0.3em;
+  transition: color 300ms;
+}
+.verify:hover { color: var(--signal); }
 .in-progress { display: inline-flex; align-items: center; gap: 8px; color: var(--signal); }
 .in-progress::before {
   content: "";
@@ -1136,4 +1174,22 @@ button { font: inherit; }
   .js .hero h1 .line > span { transform: none; }
   .statement-text .w { opacity: 1; }
   .section, .hero, .statement, .contact { padding-block: 24px; }
+}
+
+/* ---------- Not-found page ---------- */
+
+.notfound { display: grid; align-items: center; min-height: 100svh; padding-block: 64px; }
+.notfound .hero-kicker { opacity: 1; transform: none; }
+.notfound h1 {
+  margin-top: 24px;
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 13vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+.notfound-lede {
+  max-width: 44ch;
+  margin-block: 28px 36px;
+  color: var(--ink-2);
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
 }

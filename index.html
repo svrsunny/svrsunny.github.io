@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Sanjeev Varma Ragula, SOC Analyst</title>
   <meta name="description" content="Sanjeev Varma Ragula, SOC analyst at Deloitte: threat investigation and incident response across identity, email, endpoint, cloud and OT, and the playbooks, frameworks and alert tuning that make investigations faster.">
   <link rel="canonical" href="https://sanjeevvarmaragula.com/">
@@ -11,20 +13,49 @@
   <meta property="og:url" content="https://sanjeevvarmaragula.com/">
   <meta property="og:title" content="Sanjeev Varma Ragula, SOC Analyst and Security Engineering">
   <meta property="og:description" content="Threat investigation and incident response in a 24/7 SOC, and the engineering that makes the next investigation faster.">
-  <meta property="og:image" content="https://sanjeevvarmaragula.com/assets/img/film-poster-wide.jpg">
+  <meta property="og:image" content="https://sanjeevvarmaragula.com/assets/img/share-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sanjeev Varma Ragula, SOC Analyst and Security Engineering">
+  <meta property="og:site_name" content="Sanjeev Varma Ragula">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090c'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23ff5b36'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/instrument-serif-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/geist-latin.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/img/portrait.webp" fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
-  <script>
-    // Dark is the default. Apply a saved light choice before first paint so the page never flashes.
-    document.documentElement.classList.add("js");
-    try {
-      if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light";
-    } catch (e) {}
+  <script src="theme.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "url": "https://sanjeevvarmaragula.com/",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Sanjeev Varma Ragula",
+      "url": "https://sanjeevvarmaragula.com/",
+      "image": "https://sanjeevvarmaragula.com/assets/img/portrait.webp",
+      "jobTitle": "Cyber Security Consultant, Security Operations",
+      "description": "SOC analyst working in managed detection and response: threat investigation, incident response and security engineering.",
+      "worksFor": { "@type": "Organization", "name": "Deloitte" },
+      "address": { "@type": "PostalAddress", "addressRegion": "Telangana", "addressCountry": "IN" },
+      "alumniOf": [
+        { "@type": "CollegeOrUniversity", "name": "National Forensic Sciences University" },
+        { "@type": "CollegeOrUniversity", "name": "Osmania University" }
+      ],
+      "hasCredential": [
+        { "@type": "EducationalOccupationalCredential", "name": "Microsoft Certified: Identity and Access Administrator Associate (SC-300)", "url": "https://learn.microsoft.com/api/credentials/share/en-gb/sanjeevvarmaragula/126BB3F113BE56B4?sharingId=C15E62C6509B3779" },
+        { "@type": "EducationalOccupationalCredential", "name": "Microsoft Certified: Security Operations Analyst Associate (SC-200)", "url": "https://learn.microsoft.com/api/credentials/share/en-gb/sanjeevvarmaragula/3E583BEA64C4D676?sharingId=C15E62C6509B3779" },
+        { "@type": "EducationalOccupationalCredential", "name": "Google Cloud Professional Security Operations Engineer", "url": "https://www.credly.com/badges/4bcbc356-5fda-4b34-8a0a-8132a2bf8915/public_url" }
+      ],
+      "knowsAbout": ["Security operations", "Incident response", "Threat hunting", "Detection engineering", "Microsoft Sentinel", "KQL", "Microsoft Defender XDR", "CrowdStrike Falcon", "Digital forensics"],
+      "sameAs": [
+        "https://www.linkedin.com/in/sanjeev-varma-ragula/",
+        "https://github.com/svrsunny",
+        "https://www.youtube.com/@SanjeevVarmaRagula"
+      ]
+    }
+  }
   </script>
 </head>
 <body>
@@ -338,17 +369,17 @@
               <li data-reveal>
                 <span class="ledger-meta">Microsoft</span>
                 <strong>Identity and Access Administrator Associate</strong>
-                <span class="ledger-end"><span class="code">SC-300</span><time datetime="2026-07">July 2026</time></span>
+                <span class="ledger-end"><span class="code">SC-300</span><time datetime="2026-07">July 2026</time><a class="verify" href="https://learn.microsoft.com/api/credentials/share/en-gb/sanjeevvarmaragula/126BB3F113BE56B4?sharingId=C15E62C6509B3779" aria-label="Verify SC-300 on Microsoft Learn">Verify</a></span>
               </li>
               <li data-reveal>
                 <span class="ledger-meta">Microsoft</span>
                 <strong>Security Operations Analyst Associate</strong>
-                <span class="ledger-end"><span class="code">SC-200</span><time datetime="2026-05">May 2026</time></span>
+                <span class="ledger-end"><span class="code">SC-200</span><time datetime="2026-05">May 2026</time><a class="verify" href="https://learn.microsoft.com/api/credentials/share/en-gb/sanjeevvarmaragula/3E583BEA64C4D676?sharingId=C15E62C6509B3779" aria-label="Verify SC-200 on Microsoft Learn">Verify</a></span>
               </li>
               <li data-reveal>
                 <span class="ledger-meta">Google Cloud</span>
                 <strong>Professional Security Operations Engineer</strong>
-                <span class="ledger-end"><time datetime="2025-12">Dec 2025</time></span>
+                <span class="ledger-end"><time datetime="2025-12">Dec 2025</time><a class="verify" href="https://www.credly.com/badges/4bcbc356-5fda-4b34-8a0a-8132a2bf8915/public_url" aria-label="Verify the Google Cloud certification on Credly">Verify</a></span>
               </li>
               <li data-reveal>
                 <span class="ledger-meta">Microsoft</span>
