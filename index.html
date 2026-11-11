@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Sanjeev Varma Ragula, SOC Analyst</title>
   <meta name="description" content="Sanjeev Varma Ragula, SOC analyst at Deloitte: threat investigation and incident response across identity, email, endpoint, cloud and OT, and the playbooks, frameworks and alert tuning that make investigations faster.">
@@ -511,5 +511,7 @@
   </footer>
 
   <script src="main.js"></script>
+  <!-- Cloudflare Web Analytics: cookie-free visit counts -->
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "50cea612bd31406583086a68adb22cd1"}'></script>
 </body>
 </html>
