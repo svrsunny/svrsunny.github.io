@@ -4,17 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sanjeev Varma Ragula, SOC Analyst</title>
-  <meta name="description" content="Sanjeev Varma Ragula, SOC analyst at Deloitte: threat investigation and incident response across identity, email, endpoint, cloud and OT, plus the KQL frameworks, playbooks and alert tuning that speed them up.">
+  <meta name="description" content="Sanjeev Varma Ragula, SOC analyst at Deloitte: threat investigation and incident response across identity, email, endpoint, cloud and OT, and the playbooks, frameworks and alert tuning that make investigations faster.">
   <link rel="canonical" href="https://sanjeevvarmaragula.com/">
-  <meta name="theme-color" content="#070b11">
+  <meta name="theme-color" content="#08090c">
   <meta property="og:type" content="profile">
   <meta property="og:url" content="https://sanjeevvarmaragula.com/">
   <meta property="og:title" content="Sanjeev Varma Ragula, SOC Analyst and Security Engineering">
-  <meta property="og:description" content="Threat investigation and incident response in a 24/7 SOC, and the detection logic, playbooks and tuning behind it.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23070b11'/%3E%3Cpath d='M16 5 26 9v7c0 6-4.2 9.8-10 11-5.8-1.2-10-5-10-11V9z' fill='none' stroke='%236ea8ff' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23ff5d5d'/%3E%3C/svg%3E">
+  <meta property="og:description" content="Threat investigation and incident response in a 24/7 SOC, and the engineering that makes the next investigation faster.">
+  <meta property="og:image" content="https://sanjeevvarmaragula.com/assets/img/film-poster-wide.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090c'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23ff5b36'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/img/portrait.webp" fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
   <script>
     // Dark is the default. Apply a saved light choice before first paint so the page never flashes.
@@ -30,15 +33,14 @@
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="brand" href="#top">
-        <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 20 5.6v5.6c0 4.9-3.4 8-8 9.3-4.6-1.3-8-4.4-8-9.3V5.6z"/><circle cx="12" cy="11.5" r="2.4"/></svg>
+        <span class="signal-dot" aria-hidden="true"></span>
         <span class="brand-name">Sanjeev Varma Ragula</span>
       </a>
       <nav class="site-nav" id="site-nav" aria-label="Main">
         <ul class="nav-list">
           <li><a href="#experience">Experience</a></li>
-          <li><a href="#threats">Threats</a></li>
+          <li><a href="#casework">Casework</a></li>
           <li><a href="#credentials">Credentials</a></li>
-          <li><a href="#research">Research</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
@@ -48,7 +50,7 @@
         <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
       </button>
       <button class="icon-button menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
       </button>
     </div>
     <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -57,41 +59,51 @@
   <main id="main">
     <!-- Hero -->
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-bg" aria-hidden="true"></div>
+      <canvas class="hero-field" id="hero-field" aria-hidden="true"></canvas>
       <div class="wrap hero-grid">
         <div class="hero-text">
-          <p class="status-pill"><span class="live-dot" aria-hidden="true"></span>Cyber Security Consultant at Deloitte</p>
-          <h1 id="hero-title">Sanjeev Varma Ragula</h1>
-          <p class="role">SOC Analyst<span class="role-sep" aria-hidden="true"></span>Security Engineering</p>
-          <p class="lede">I investigate and respond to threats in a 24/7 security operations centre, then build the queries, playbooks and tuning that make the next investigation faster.</p>
+          <p class="hero-kicker"><span class="signal-dot is-live" aria-hidden="true"></span>Cyber Security Consultant at Deloitte</p>
+          <h1 id="hero-title">
+            <span class="line"><span>Sanjeev Varma</span></span>
+            <span class="line"><span>Ragula</span></span>
+          </h1>
+          <p class="hero-role">SOC Analyst<span class="rule" aria-hidden="true"></span>Security Engineering</p>
+          <p class="hero-lede">I investigate and respond to threats in a 24/7 security operations centre, then build the queries, playbooks and tuning that make the next investigation faster.</p>
           <p class="hero-actions">
             <a class="button button-primary" href="mailto:sanjeevvarma.ragula@gmail.com">Email me</a>
             <a class="button" href="https://www.linkedin.com/in/sanjeev-varma-ragula/">LinkedIn</a>
+            <a class="link-arrow" href="#film">Watch the two-minute film</a>
           </p>
-          <ul class="platforms" aria-label="Platforms I work in daily">
-            <li>Microsoft Sentinel</li>
-            <li>Defender XDR</li>
-            <li>CrowdStrike Falcon</li>
-            <li>Entra ID</li>
-            <li>Chronicle SOAR</li>
-          </ul>
         </div>
 
-        <figure class="console" aria-labelledby="console-caption">
-          <div class="console-bar">
-            <span class="console-title">Detection pipeline</span>
-            <span class="console-live"><span class="live-dot" aria-hidden="true"></span>Simulation</span>
+        <figure class="hero-portrait">
+          <div class="portrait-frame">
+            <img src="assets/img/portrait.webp" width="880" height="1173" alt="Portrait of Sanjeev Varma Ragula" fetchpriority="high" decoding="async">
           </div>
-          <div class="pipeline">
-            <canvas id="pipeline-canvas" aria-hidden="true"></canvas>
-          </div>
-          <dl class="counters" aria-hidden="true">
-            <div><dt>Events</dt><dd id="count-events">0</dd></div>
-            <div><dt>Alerts</dt><dd id="count-alerts">0</dd></div>
-            <div><dt>Incidents</dt><dd id="count-incidents">0</dd></div>
-          </dl>
-          <figcaption id="console-caption" class="console-caption">A simulation of the job: a flood of telemetry, a handful of alerts, and the rare real incident worth escalating.</figcaption>
+          <figcaption>
+            <span>Telangana, India</span>
+            <span>Sentinel, Defender XDR, CrowdStrike</span>
+          </figcaption>
         </figure>
+      </div>
+    </section>
+
+    <!-- Statement -->
+    <section class="statement" aria-label="What I do">
+      <div class="wrap">
+        <p class="statement-text" id="statement">Every endpoint is talking. Almost all of it is noise. I find the one signal that matters, then build what finds it faster.</p>
+      </div>
+    </section>
+
+    <!-- Numbers -->
+    <section class="numbers" aria-label="Impact in numbers">
+      <div class="wrap">
+        <ul class="stats">
+          <li data-reveal><strong><span data-count="2">2</span><small>years</small></strong><span>in managed detection and response</span></li>
+          <li data-reveal><strong><span data-count="500000" data-format="k">500K</span><small>+</small></strong><span>endpoints monitored in a global SOC</span></li>
+          <li data-reveal><strong><span data-count="8">8</span><small>clients</small></strong><span>onboarded into a multi-client MXDR SOC</span></li>
+          <li data-reveal><strong><span data-count="80">80</span><small>%+</small></strong><span>less time on initial email-alert triage</span></li>
+        </ul>
       </div>
     </section>
 
@@ -121,18 +133,6 @@
       </div>
     </section>
 
-    <!-- Impact -->
-    <section class="impact" aria-label="Impact in numbers">
-      <div class="wrap">
-        <ul class="stats">
-          <li data-reveal><strong><span data-count="2">2</span> years</strong><span>in managed detection and response</span></li>
-          <li data-reveal><strong><span data-count="500000" data-format="k">500K</span>+</strong><span>endpoints monitored in a global SOC</span></li>
-          <li data-reveal><strong><span data-count="8">8</span> clients</strong><span>onboarded into a multi-client MXDR SOC</span></li>
-          <li data-reveal><strong><span data-count="80">80</span>%+</strong><span>less time on initial email-alert triage</span></li>
-        </ul>
-      </div>
-    </section>
-
     <!-- Experience -->
     <section class="section" id="experience" aria-labelledby="experience-title">
       <div class="wrap">
@@ -143,8 +143,9 @@
 
         <div class="job" data-reveal>
           <div class="job-main">
+            <p class="job-dates"><time datetime="2024-09">Sept 2024</time> to present</p>
             <h3>Cyber Security Consultant, Security Operations</h3>
-            <p class="job-org">Deloitte <span class="job-dates"><time datetime="2024-09">Sept 2024</time> to present</span></p>
+            <p class="job-org">Deloitte</p>
           </div>
           <ul class="engagement-list">
             <li>
@@ -161,14 +162,10 @@
         <!-- SOC first -->
         <div class="track">
           <div class="track-head" data-reveal>
-            <span class="track-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
-            <div>
-              <h3>Detection and response</h3>
-              <p>Day to day in the SOC: triage, investigation, containment and clear communication.</p>
-            </div>
+            <h3>Detection and response</h3>
+            <p>Day to day in the SOC: triage, investigation, containment and clear communication.</p>
           </div>
-
-          <ul class="work-list">
+          <ul class="rows">
             <li data-reveal>
               <h4>Led investigations into confirmed compromises</h4>
               <p>AiTM phishing, credential theft, DCSync attempts, malware infections, persistence and post-exploitation. Correlated identity, endpoint, email, network and threat-intelligence evidence to establish scope, root cause and user impact.</p>
@@ -195,139 +192,133 @@
         <!-- Engineering second -->
         <div class="track">
           <div class="track-head" data-reveal>
-            <span class="track-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4.5l-3 15"/></svg></span>
-            <div>
-              <h3>Security engineering</h3>
-              <p>Building the tools, logic and process that let the SOC investigate faster and with less noise.</p>
-            </div>
+            <h3>Security engineering</h3>
+            <p>Building the tools, logic and process that let the SOC investigate faster and with less noise.</p>
           </div>
 
-          <div class="build-grid">
-            <article class="build build-wide spotlight" data-reveal>
-              <div class="build-text">
-                <h4>Alert tuning across client environments</h4>
-                <p>Led cross-functional tuning as new clients came online: refining detection conditions, suppression and severity until analysts saw signal instead of noise.</p>
-                <div class="noise-readout" id="noise-readout">
-                  <strong id="noise-count">500–700+</strong>
-                  <span id="noise-label">alerts per client, per shift, at onboarding</span>
-                </div>
-                <div class="segmented" role="group" aria-label="Show alert volume">
-                  <button type="button" data-stage="0" aria-pressed="true">Onboarding</button>
-                  <button type="button" data-stage="1" aria-pressed="false">6 months</button>
-                  <button type="button" data-stage="2" aria-pressed="false">1 year</button>
-                </div>
+          <article class="tuning" data-reveal>
+            <div class="tuning-text">
+              <h4>Alert tuning across client environments</h4>
+              <p>Led cross-functional tuning as new clients came online: refining detection conditions, suppression and severity until analysts saw signal instead of noise.</p>
+              <div class="noise-readout" id="noise-readout">
+                <strong id="noise-count">500–700+</strong>
+                <span id="noise-label">alerts per client, per shift, at onboarding</span>
               </div>
-              <figure class="noise">
-                <div class="noise-field" id="noise-field" aria-hidden="true"></div>
-                <figcaption class="noise-caption">
-                  <span>Each square is one alert. Counts represent the ranges.</span>
-                  <span class="legend">
-                    <span><i class="sev sev-high"></i>High</span>
-                    <span><i class="sev sev-med"></i>Medium</span>
-                    <span><i class="sev sev-low"></i>Low or benign</span>
-                  </span>
-                </figcaption>
-              </figure>
-            </article>
+              <div class="segmented" role="group" aria-label="Show alert volume">
+                <button type="button" data-stage="0" aria-pressed="true">Onboarding</button>
+                <button type="button" data-stage="1" aria-pressed="false">6 months</button>
+                <button type="button" data-stage="2" aria-pressed="false">1 year</button>
+              </div>
+            </div>
+            <figure class="noise">
+              <div class="noise-field" id="noise-field" aria-hidden="true"></div>
+              <figcaption class="noise-caption">
+                <span>Each dot is one alert. Counts represent the ranges.</span>
+                <span class="legend">
+                  <span><i class="sev sev-high"></i>High</span>
+                  <span><i class="sev sev-med"></i>Medium</span>
+                  <span><i class="sev sev-low"></i>Low or benign</span>
+                </span>
+              </figcaption>
+            </figure>
+          </article>
 
-            <article class="build spotlight" data-reveal>
+          <ul class="rows rows-metric">
+            <li data-reveal>
               <h4>Email-security triage framework</h4>
               <p>A reusable investigation framework that brings everything about a suspicious email into one view: sender and authentication results, links, attachments, user clicks, remediation and user reports. It adds automated risk indicators and a score-based verdict, and covers reported emails, malicious URLs, URL clicks and AiTM phishing.</p>
-              <p class="build-metric">Cut initial triage from 5–15 minutes to 1 minute per alert, across 50–70+ email alerts per shift.</p>
-            </article>
-
-            <article class="build spotlight" data-reveal>
+              <p class="metric"><strong>5–15 min to 1 min</strong><span>initial triage per alert, across 50–70+ email alerts per shift</span></p>
+            </li>
+            <li data-reveal>
               <h4>Risky sign-in playbook and SOP</h4>
               <p>The official KQL-based playbook for identity-risk investigations. Correlates interactive and non-interactive sign-ins, audit, Office activity, inbox rules and Entra ID risk to judge compromise and token persistence.</p>
-              <p class="build-metric">Adopted by 15 analysts across 8 clients, for 20+ investigations a day.</p>
-            </article>
-
-            <article class="build spotlight" data-reveal>
+              <p class="metric"><strong>15 analysts, 8 clients</strong><span>adopted for 20+ investigations a day</span></p>
+            </li>
+            <li data-reveal>
               <h4>Detection logic refinement</h4>
               <p>Worked with engineering to cut false positives: for example, moving curl detections from broad command-line substring matching to process-aware execution conditions.</p>
-              <p class="build-metric">Plus suppression and severity calibration across identity, endpoint and email detections.</p>
-            </article>
-
-            <article class="build spotlight" data-reveal>
+              <p class="metric"><strong>Fewer false positives</strong><span>plus suppression and severity calibration across identity, endpoint and email</span></p>
+            </li>
+            <li data-reveal>
               <h4>Client onboarding and telemetry</h4>
               <p>1–2 month onboarding cycles: scripted agent deployment, Velociraptor and Trex coverage checks, telemetry health and cross-tenant Sentinel and Defender configuration.</p>
-              <p class="build-metric">Helped grow the SOC from 1 to 8 clients in 14 months.</p>
-            </article>
-          </div>
+              <p class="metric"><strong>1 to 8 clients</strong><span>in 14 months</span></p>
+            </li>
+          </ul>
         </div>
 
-        <aside class="award spotlight" data-reveal aria-label="Award">
-          <span class="award-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg></span>
+        <aside class="award" data-reveal aria-label="Award">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg>
           <p><strong>Move the Dot Award, individual category, Deloitte.</strong> Recognized for client centricity and proactive incident management in enterprise SOC operations.</p>
         </aside>
       </div>
     </section>
 
-    <!-- Threats -->
-    <section class="section section-band" id="threats" aria-labelledby="threats-title">
+    <!-- Casework -->
+    <section class="section section-band" id="casework" aria-labelledby="casework-title">
       <div class="wrap">
         <header class="section-head" data-reveal>
-          <h2 id="threats-title">Threats I've investigated</h2>
+          <h2 id="casework-title">Threats I've investigated</h2>
           <p>Real attack types from my casework, mapped to MITRE ATT&amp;CK.</p>
         </header>
 
-        <ul class="threat-grid">
-          <li class="threat spotlight" data-reveal>
+        <ul class="index">
+          <li data-reveal>
             <h3>Adversary-in-the-middle phishing</h3>
             <p>Phishing pages that proxy the real sign-in to steal session tokens and bypass MFA.</p>
             <p class="ttp"><a href="https://attack.mitre.org/techniques/T1557/">T1557</a><a href="https://attack.mitre.org/techniques/T1566/">T1566</a></p>
           </li>
-          <li class="threat spotlight" data-reveal>
+          <li data-reveal>
             <h3>DCSync and credential theft</h3>
             <p>Attempts to pull password hashes from domain controllers by impersonating replication.</p>
             <p class="ttp"><a href="https://attack.mitre.org/techniques/T1003/006/">T1003.006</a></p>
           </li>
-          <li class="threat spotlight" data-reveal>
+          <li data-reveal>
             <h3>Token abuse and persistence</h3>
             <p>Stolen tokens reused after a password reset, found through non-interactive sign-ins.</p>
             <p class="ttp"><a href="https://attack.mitre.org/techniques/T1550/">T1550</a><a href="https://attack.mitre.org/tactics/TA0003/">TA0003</a></p>
           </li>
-          <li class="threat spotlight" data-reveal>
+          <li data-reveal>
             <h3>Malicious inbox rules</h3>
             <p>Mailbox rules that hide or forward mail so an attacker can stay unnoticed.</p>
             <p class="ttp"><a href="https://attack.mitre.org/techniques/T1564/008/">T1564.008</a></p>
           </li>
-          <li class="threat spotlight" data-reveal>
+          <li data-reveal>
             <h3>Multi-stage malware</h3>
             <p>Execution, privilege escalation and command-and-control traced across the endpoint.</p>
             <p class="ttp"><a href="https://attack.mitre.org/tactics/TA0002/">TA0002</a><a href="https://attack.mitre.org/tactics/TA0011/">TA0011</a></p>
           </li>
-          <li class="threat spotlight" data-reveal>
+          <li data-reveal>
             <h3>Lateral movement</h3>
             <p>Attackers moving from the first foothold to other hosts and accounts.</p>
             <p class="ttp"><a href="https://attack.mitre.org/tactics/TA0008/">TA0008</a></p>
           </li>
-          <li class="threat spotlight" data-reveal>
+          <li data-reveal>
             <h3>Removable media in OT</h3>
             <p>Malware carried into production networks on USB drives used to transfer software.</p>
             <p class="ttp"><a href="https://attack.mitre.org/techniques/T1091/">T1091</a></p>
           </li>
-          <li class="threat spotlight" data-reveal>
+          <li data-reveal>
             <h3>Post-exploitation activity</h3>
             <p>What attackers do after getting in: discovery, staging and attempts to dig in deeper.</p>
             <p class="ttp"><a href="https://attack.mitre.org/tactics/TA0007/">TA0007</a><a href="https://attack.mitre.org/tactics/TA0004/">TA0004</a></p>
           </li>
         </ul>
 
-        <div class="toolkit" data-reveal>
-          <h3 class="sub-title">Toolkit</h3>
+        <div class="toolkit">
+          <h3 class="sub-title" data-reveal>Toolkit</h3>
           <div class="marquee" aria-hidden="true">
             <ul class="marquee-track">
-              <li>Microsoft Sentinel</li><li>KQL</li><li>Defender XDR</li><li>Entra ID</li><li>CrowdStrike Falcon</li><li>Chronicle SIEM</li><li>Chronicle SOAR</li><li>Tanium</li><li>Velociraptor</li><li>osquery</li><li>FleetDM</li><li>Sysmon</li><li>TheHive</li><li>MITRE ATT&amp;CK</li><li>Metabase</li><li>PowerShell</li>
+              <li>Microsoft Sentinel</li><li>KQL</li><li>Defender XDR</li><li>Entra ID</li><li>CrowdStrike Falcon</li><li>Chronicle SIEM</li><li>Chronicle SOAR</li><li>Tanium</li><li>Velociraptor</li><li>osquery</li><li>Sysmon</li><li>TheHive</li><li>MITRE ATT&amp;CK</li>
             </ul>
           </div>
           <dl class="skills">
-            <div><dt>SIEM, XDR, EDR and SOAR</dt><dd>Microsoft Sentinel, KQL, Microsoft Defender XDR, Microsoft Entra ID, CrowdStrike Falcon, Google Chronicle SIEM/SOAR, Tanium</dd></div>
-            <div><dt>Incident response and hunting</dt><dd>Triage, multi-stage attack investigation, root cause analysis, IOC hunting, behavioural analytics, persistence and lateral movement detection</dd></div>
-            <div><dt>Identity and cloud</dt><dd>Entra ID sign-in analysis, risky and non-interactive sign-ins, token abuse, AiTM, DCSync, MFA, Conditional Access, cloud app activity</dd></div>
-            <div><dt>Email and network</dt><dd>Phishing, URL and attachment analysis, post-delivery remediation (ZAP), SPF, DKIM, DMARC, CompAuth, DNS, proxy and firewall logs</dd></div>
-            <div><dt>DFIR and malware</dt><dd>Velociraptor, FleetDM, osquery, Sysmon, TheHive, live response, evidence acquisition, chain of custody, disk and memory forensics, timeline reconstruction</dd></div>
-            <div><dt>Detection engineering</dt><dd>KQL query development, detection use cases, alert tuning, false-positive reduction, risk scoring, investigation playbooks, TTP analysis</dd></div>
+            <div data-reveal><dt>SIEM, XDR, EDR and SOAR</dt><dd>Microsoft Sentinel, KQL, Microsoft Defender XDR, Microsoft Entra ID, CrowdStrike Falcon, Google Chronicle SIEM/SOAR, Tanium</dd></div>
+            <div data-reveal><dt>Incident response and hunting</dt><dd>Triage, multi-stage attack investigation, root cause analysis, IOC hunting, behavioural analytics, persistence and lateral movement detection</dd></div>
+            <div data-reveal><dt>Identity and cloud</dt><dd>Entra ID sign-in analysis, risky and non-interactive sign-ins, token abuse, AiTM, DCSync, MFA, Conditional Access, cloud app activity</dd></div>
+            <div data-reveal><dt>Email and network</dt><dd>Phishing, URL and attachment analysis, post-delivery remediation (ZAP), SPF, DKIM, DMARC, CompAuth, DNS, proxy and firewall logs</dd></div>
+            <div data-reveal><dt>DFIR and malware</dt><dd>Velociraptor, FleetDM, osquery, Sysmon, TheHive, live response, evidence acquisition, chain of custody, disk and memory forensics, timeline reconstruction</dd></div>
+            <div data-reveal><dt>Detection engineering</dt><dd>KQL query development, detection use cases, alert tuning, false-positive reduction, risk scoring, investigation playbooks, TTP analysis</dd></div>
           </dl>
         </div>
       </div>
@@ -337,116 +328,132 @@
     <section class="section" id="credentials" aria-labelledby="credentials-title">
       <div class="wrap">
         <header class="section-head" data-reveal>
-          <h2 id="credentials-title">Certifications and education</h2>
+          <h2 id="credentials-title">Credentials</h2>
         </header>
 
-        <ul class="cert-grid">
-          <li class="cert spotlight" data-reveal>
-            <span class="cert-issuer">Microsoft</span>
-            <h3>Security Operations Analyst Associate</h3>
-            <p class="cert-meta"><span class="cert-code">SC-200</span><time datetime="2026-05">May 2026</time></p>
-          </li>
-          <li class="cert spotlight" data-reveal>
-            <span class="cert-issuer">Google Cloud</span>
-            <h3>Professional Security Operations Engineer</h3>
-            <p class="cert-meta"><time datetime="2025-12">Dec 2025</time></p>
-          </li>
-          <li class="cert spotlight" data-reveal>
-            <span class="cert-issuer">Microsoft</span>
-            <h3>Identity and Access Administrator Associate</h3>
-            <p class="cert-meta"><span class="cert-code">SC-300</span><time datetime="2026-07">July 2026</time></p>
-          </li>
-          <li class="cert cert-progress spotlight" data-reveal>
-            <span class="cert-issuer">Microsoft</span>
-            <h3>Cybersecurity Architect Expert</h3>
-            <p class="cert-meta"><span class="cert-code">SC-100</span><span class="in-progress">In progress</span></p>
-          </li>
-        </ul>
+        <div class="cred-grid">
+          <div class="cred-col">
+            <h3 class="sub-title" data-reveal>Certifications</h3>
+            <ul class="ledger">
+              <li data-reveal>
+                <span class="ledger-meta">Microsoft</span>
+                <strong>Identity and Access Administrator Associate</strong>
+                <span class="ledger-end"><span class="code">SC-300</span><time datetime="2026-07">July 2026</time></span>
+              </li>
+              <li data-reveal>
+                <span class="ledger-meta">Microsoft</span>
+                <strong>Security Operations Analyst Associate</strong>
+                <span class="ledger-end"><span class="code">SC-200</span><time datetime="2026-05">May 2026</time></span>
+              </li>
+              <li data-reveal>
+                <span class="ledger-meta">Google Cloud</span>
+                <strong>Professional Security Operations Engineer</strong>
+                <span class="ledger-end"><time datetime="2025-12">Dec 2025</time></span>
+              </li>
+              <li data-reveal>
+                <span class="ledger-meta">Microsoft</span>
+                <strong>Cybersecurity Architect Expert</strong>
+                <span class="ledger-end"><span class="code">SC-100</span><span class="in-progress">In progress</span></span>
+              </li>
+            </ul>
+          </div>
 
-        <ol class="timeline">
-          <li data-reveal>
-            <p class="tl-dates"><time datetime="2022">2022</time> to <time datetime="2024">2024</time></p>
-            <div>
-              <h3>Master of Science in Digital Forensics and Information Security</h3>
-              <p>National Forensic Sciences University (NFSU), Gandhinagar</p>
-              <p class="grade">CGPA 8.56 / 10</p>
-            </div>
-          </li>
-          <li data-reveal>
-            <p class="tl-dates"><time datetime="2018">2018</time> to <time datetime="2021">2021</time></p>
-            <div>
-              <h3>Bachelor of Science in Computer Science</h3>
-              <p>Osmania University, Hyderabad</p>
-              <p class="grade">CGPA 8.34 / 10</p>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </section>
+          <div class="cred-col">
+            <h3 class="sub-title" data-reveal>Education</h3>
+            <ul class="ledger">
+              <li data-reveal>
+                <span class="ledger-meta"><time datetime="2022">2022</time> to <time datetime="2024">2024</time></span>
+                <strong>MSc, Digital Forensics and Information Security</strong>
+                <span class="ledger-end">National Forensic Sciences University, Gandhinagar. CGPA 8.56 / 10</span>
+              </li>
+              <li data-reveal>
+                <span class="ledger-meta"><time datetime="2018">2018</time> to <time datetime="2021">2021</time></span>
+                <strong>BSc, Computer Science</strong>
+                <span class="ledger-end">Osmania University, Hyderabad. CGPA 8.34 / 10</span>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-    <!-- Research -->
-    <section class="section section-band" id="research" aria-labelledby="research-title">
-      <div class="wrap">
-        <header class="section-head" data-reveal>
-          <h2 id="research-title">Research</h2>
-        </header>
-        <div class="research">
-          <article class="paper spotlight" data-reveal aria-labelledby="paper-title">
+        <div class="research" id="research">
+          <h3 class="sub-title" data-reveal>Research</h3>
+          <article class="paper" data-reveal aria-labelledby="paper-title">
             <p class="paper-kind">Journal paper, accepted for publication</p>
-            <h3 id="paper-title">Forensic analysis of privacy and anonymity focused operating systems: Tails OS, Whonix and Qubes OS</h3>
+            <h4 id="paper-title">Forensic analysis of privacy and anonymity focused operating systems: Tails OS, Whonix and Qubes OS</h4>
             <p class="paper-venue">International Journal of Electronic Security and Digital Forensics</p>
             <p>Analyzed forensic artifacts, memory behaviour, encryption and anonymized network traffic on three privacy-focused operating systems, to show where investigators get stuck and propose improvements.</p>
             <p><a class="text-link" href="https://doi.org/10.1504/IJESDF.2027.10068805">DOI 10.1504/IJESDF.2027.10068805</a></p>
           </article>
-          <article class="paper spotlight" data-reveal aria-labelledby="owasp-title">
+          <article class="paper paper-minor" data-reveal aria-labelledby="owasp-title">
             <p class="paper-kind">Academic project</p>
-            <h3 id="owasp-title">Broken access control: exploitation and mitigation (OWASP A01)</h3>
+            <h4 id="owasp-title">Broken access control: exploitation and mitigation (OWASP A01)</h4>
             <p>Simulated IDOR and privilege-escalation flaws, documented the exploitation paths, and proposed secure role-based access control fixes.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Side projects -->
-    <section class="section" id="projects" aria-labelledby="projects-title">
+    <!-- Projects -->
+    <section class="section section-band" id="projects" aria-labelledby="projects-title">
       <div class="wrap">
         <header class="section-head" data-reveal>
-          <h2 id="projects-title">Side projects</h2>
-          <p>Small tools I build outside work, for chores I'd rather automate.</p>
+          <h2 id="projects-title">Built outside work</h2>
+          <p>Private-by-design tools I build for myself and the people around me. No accounts, no cloud, no tracking.</p>
         </header>
 
-        <div class="side-projects">
-          <article class="side spotlight" data-reveal aria-labelledby="sp-router">
-            <figure class="side-shot">
-              <img class="only-dark" src="assets/img/dashboard-dark.png" width="1042" height="892" loading="lazy" decoding="async" alt="Router Control dashboard with a countdown to the next restart, connection status, latency chart and 24-hour uptime">
-              <img class="only-light" src="assets/img/dashboard-light.png" width="1042" height="892" loading="lazy" decoding="async" alt="Router Control dashboard with a countdown to the next restart, connection status, latency chart and 24-hour uptime">
+        <article class="feature" data-reveal aria-labelledby="pj-emi">
+          <div class="feature-visual">
+            <img class="shot-desktop" src="assets/img/emi-desktop.webp" width="1440" height="900" loading="lazy" decoding="async" alt="EMI Tracker on Windows: dashboard with outstanding principal, interest paid, dues and charts, using demo data">
+            <img class="shot-phone" src="assets/img/emi-phone.webp" width="540" height="1200" loading="lazy" decoding="async" alt="EMI Tracker on Android: dashboard using demo data">
+          </div>
+          <div class="feature-text">
+            <h3 id="pj-emi">EMI Tracker</h3>
+            <p>A private, offline app for Windows and Android that tracks loans, EMIs, chit funds, bills and money lent or borrowed, and reminds you before anything is due. Exact loan maths, a debt-free date, and encrypted sync between phone and PC over home Wi-Fi only.</p>
+            <ul class="tags"><li>TypeScript</li><li>React</li><li>Electron</li><li>Kotlin</li><li>SQLite</li><li>AES-256 backups</li></ul>
+            <p class="feature-links">
+              <a class="button button-primary" href="https://github.com/svrsunny/emi-tracker">View on GitHub</a>
+              <a class="link-arrow" href="https://github.com/svrsunny/emi-tracker/releases/latest">Download v1.5.0</a>
+            </p>
+          </div>
+        </article>
+
+        <div class="project-grid">
+          <article class="project" data-reveal aria-labelledby="pj-vault">
+            <figure class="project-shot">
+              <img src="assets/img/drivevault.webp" width="1200" height="760" loading="lazy" decoding="async" alt="DriveVault file browser listing encrypted folders and files, using demo data">
             </figure>
-            <div class="side-text">
-              <h3 id="sp-router">Router Auto Restart</h3>
-              <p>Scheduled restarts for home routers that can't restart themselves, driven from Windows, with an Android app that alerts when the router is up but the internet is down. Credentials stay in Windows Credential Manager or the Android Keystore.</p>
-              <p class="side-tech">Python, PowerShell, Java for Android. Open source, MIT licence.</p>
-              <p><a class="text-link" href="https://github.com/svrsunny/windows-router-auto-restart">View on GitHub</a></p>
-            </div>
+            <h3 id="pj-vault">DriveVault</h3>
+            <p>A password-protected, encrypted vault on a USB drive that opens on Windows, Linux and Android with the same password. Files, names and folders are encrypted with AES-256-GCM; the password is protected with Argon2id.</p>
+            <ul class="tags"><li>Kotlin</li><li>Python</li><li>AES-256-GCM</li><li>Argon2id</li></ul>
+            <p class="project-note">Private repository</p>
           </article>
 
-          <article class="side spotlight" data-reveal aria-labelledby="sp-roster">
-            <div class="side-shot roster-mini" role="img" aria-label="A colour-coded shift roster grid">
+          <article class="project" data-reveal aria-labelledby="pj-router">
+            <figure class="project-shot">
+              <img class="only-dark" src="assets/img/dashboard-dark.png" width="1042" height="892" loading="lazy" decoding="async" alt="Router Control dashboard with a countdown to the next restart, connection status and 24-hour uptime">
+              <img class="only-light" src="assets/img/dashboard-light.png" width="1042" height="892" loading="lazy" decoding="async" alt="Router Control dashboard with a countdown to the next restart, connection status and 24-hour uptime">
+            </figure>
+            <h3 id="pj-router">Router Auto Restart</h3>
+            <p>Scheduled restarts for home routers that can't restart themselves, driven from Windows, with an Android app that alerts when the router is up but the internet is down. Credentials stay in Windows Credential Manager or the Android Keystore.</p>
+            <ul class="tags"><li>Python</li><li>PowerShell</li><li>Java</li></ul>
+            <p><a class="link-arrow" href="https://github.com/svrsunny/windows-router-auto-restart">View on GitHub</a></p>
+          </article>
+
+          <article class="project" data-reveal aria-labelledby="pj-roster">
+            <div class="project-shot roster-mini" role="img" aria-label="A colour-coded shift roster grid">
               <div class="roster" id="roster" aria-hidden="true"></div>
             </div>
-            <div class="side-text">
-              <h3 id="sp-roster">Shift Roster</h3>
-              <p>An offline Android app that reads our team's colour-coded monthly roster, from Excel or a screenshot, and posts everyone's shift each morning at 6 AM. Text recognition runs on the phone: no server, account or internet.</p>
-              <p class="side-tech">Kotlin, Jetpack Compose, ML Kit. Shared privately with my team.</p>
-              <p><a class="text-link" href="https://github.com/svrsunny">My GitHub profile</a></p>
-            </div>
+            <h3 id="pj-roster">Shift Roster</h3>
+            <p>An offline Android app that reads our team's colour-coded monthly roster, from Excel or a screenshot, and posts everyone's shift each morning at 6 AM. Text recognition runs on the phone: no server, account or internet.</p>
+            <ul class="tags"><li>Kotlin</li><li>Jetpack Compose</li><li>ML Kit</li></ul>
+            <p class="project-note">Shared privately with my team</p>
           </article>
         </div>
       </div>
     </section>
 
     <!-- Contact -->
-    <section class="section contact" id="contact" aria-labelledby="contact-title">
-      <div class="contact-glow" aria-hidden="true"></div>
+    <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="wrap">
         <h2 id="contact-title" data-reveal>Get in touch</h2>
         <p class="contact-lede" data-reveal>Happy to talk about security operations, incident response and security engineering. Email is the quickest way to reach me.</p>
@@ -457,9 +464,9 @@
           <button class="button" type="button" id="copy-email" data-email="sanjeevvarma.ragula@gmail.com">Copy email address</button>
           <a class="button" href="https://www.linkedin.com/in/sanjeev-varma-ragula/">LinkedIn</a>
           <a class="button" href="https://github.com/svrsunny">GitHub</a>
+          <a class="button" href="https://www.youtube.com/@SanjeevVarmaRagula">YouTube</a>
           <span class="copy-status" id="copy-status" role="status" aria-live="polite"></span>
         </p>
-        <p class="location" data-reveal>Based in Telangana, India</p>
       </div>
     </section>
   </main>
@@ -467,6 +474,7 @@
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <p>&copy; 2026 Sanjeev Varma Ragula</p>
+      <p>Telangana, India</p>
       <p><a href="#top">Back to top</a></p>
     </div>
   </footer>

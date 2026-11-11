@@ -15,6 +15,8 @@
     };
   }
 
+  function clamp01(value) { return Math.max(0, Math.min(1, value)); }
+
   function onVisible(el, callback, threshold) {
     if (!("IntersectionObserver" in window)) { callback(); return; }
     var observer = new IntersectionObserver(function (entries) {
@@ -24,6 +26,19 @@
     }, { threshold: threshold || 0.3 });
     observer.observe(el);
   }
+
+  /* ---------- Entrance: wait for the display font so the headline doesn't jump ---------- */
+
+  var readied = false;
+  function ready() {
+    if (readied) return;
+    readied = true;
+    root.classList.add("is-ready");
+  }
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load('1em "Instrument Serif"').then(ready, ready);
+  }
+  setTimeout(ready, 900);
 
   /* ---------- Theme ---------- */
 
@@ -35,7 +50,7 @@
 
   function syncThemeUi() {
     themeButton.setAttribute("aria-label", isLight() ? "Switch to dark theme" : "Switch to light theme");
-    themeMeta.setAttribute("content", isLight() ? "#f5f7fb" : "#070b11");
+    themeMeta.setAttribute("content", isLight() ? "#f4f2ed" : "#08090c");
     themeListeners.forEach(function (fn) { fn(); });
   }
 
@@ -71,16 +86,37 @@
   document.addEventListener("click", function (event) {
     if (nav.classList.contains("is-open") && !event.target.closest(".site-header")) setMenu(false);
   });
-  window.matchMedia("(min-width: 1024px)").addEventListener("change", function (event) {
+  window.matchMedia("(min-width: 960px)").addEventListener("change", function (event) {
     if (event.matches) setMenu(false);
   });
 
-  /* ---------- Scroll: progress bar, active nav link, SOC trace ---------- */
+  /* ---------- Statement: split into words that light up as you scroll ---------- */
 
+  var statement = document.getElementById("statement");
+  var statementWords = [];
+  if (statement) {
+    var keyWords = { one: true, signal: true };
+    var words = statement.textContent.trim().split(/\s+/);
+    statement.textContent = "";
+    words.forEach(function (word, i) {
+      var span = document.createElement("span");
+      span.className = "w" + (keyWords[word.toLowerCase().replace(/[^a-z]/g, "")] ? " is-key" : "");
+      span.textContent = word;
+      statement.appendChild(span);
+      if (i < words.length - 1) statement.appendChild(document.createTextNode(" "));
+      statementWords.push(span);
+    });
+    if (reduceMotion) statementWords.forEach(function (span) { span.classList.add("is-lit"); });
+  }
+
+  /* ---------- Scroll: progress, header, active link, statement, parallax ---------- */
+
+  var header = document.querySelector(".site-header");
   var progress = document.querySelector(".scroll-progress");
   var navLinks = Array.prototype.slice.call(nav.querySelectorAll("a"));
   var sections = navLinks.map(function (link) { return document.querySelector(link.getAttribute("href")); });
-  var traceList = document.querySelector(".work-list");
+  var portrait = document.querySelector(".portrait-frame img");
+  var phoneShot = document.querySelector(".shot-phone");
   var scrollQueued = false;
 
   function onScroll() {
@@ -88,9 +124,10 @@
     var scrollY = window.scrollY;
     var viewH = window.innerHeight;
     var max = root.scrollHeight - viewH;
-    progress.style.setProperty("--progress", max > 0 ? Math.min(1, scrollY / max).toFixed(4) : 0);
+    progress.style.setProperty("--progress", max > 0 ? clamp01(scrollY / max).toFixed(4) : 0);
+    header.classList.toggle("is-scrolled", scrollY > 8);
 
-    var marker = scrollY + viewH * 0.35;
+    var marker = scrollY + viewH * 0.4;
     var active = -1;
     sections.forEach(function (section, i) {
       if (section && section.offsetTop <= marker) active = i;
@@ -100,10 +137,17 @@
       else link.removeAttribute("aria-current");
     });
 
-    if (traceList && !reduceMotion) {
-      var rect = traceList.getBoundingClientRect();
-      var drawn = (viewH * 0.7 - rect.top) / rect.height;
-      traceList.style.setProperty("--trace", Math.max(0, Math.min(1, drawn)).toFixed(4));
+    if (reduceMotion) return;
+
+    if (statementWords.length) {
+      var rect = statement.getBoundingClientRect();
+      var lit = clamp01((viewH * 0.82 - rect.top) / (rect.height + viewH * 0.3)) * statementWords.length;
+      statementWords.forEach(function (span, i) { span.classList.toggle("is-lit", i < lit); });
+    }
+    if (portrait) portrait.style.setProperty("--parallax", clamp01(scrollY / viewH).toFixed(3));
+    if (phoneShot) {
+      var shot = phoneShot.parentElement.getBoundingClientRect();
+      phoneShot.style.setProperty("--parallax", clamp01((viewH - shot.top) / (viewH + shot.height)).toFixed(3));
     }
   }
 
@@ -120,7 +164,7 @@
     var siblings = Array.prototype.filter.call(el.parentElement.children, function (child) {
       return child.hasAttribute("data-reveal");
     });
-    el.style.setProperty("--i", Math.min(siblings.indexOf(el), 6));
+    el.style.setProperty("--i", Math.min(siblings.indexOf(el), 5));
   });
 
   if (reduceMotion || !("IntersectionObserver" in window)) {
@@ -132,7 +176,7 @@
         entry.target.classList.add("is-visible");
         revealObserver.unobserve(entry.target);
       });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.08 });
     revealEls.forEach(function (el) { revealObserver.observe(el); });
   }
 
@@ -150,293 +194,155 @@
       el.textContent = formatCount(0, format);
       onVisible(el, function () {
         var start = performance.now();
-        var duration = 1600;
+        var duration = 1800;
         (function step(now) {
-          var t = Math.min(1, (now - start) / duration);
-          var eased = 1 - Math.pow(1 - t, 3);
-          el.textContent = formatCount(target * eased, format);
+          var t = clamp01((now - start) / duration);
+          el.textContent = formatCount(target * (1 - Math.pow(1 - t, 4)), format);
           if (t < 1) requestAnimationFrame(step);
         })(start);
       }, 0.6);
     });
   }
 
-  /* ---------- Pointer spotlight on cards ---------- */
+  /* ---------- Hero field: a quiet field of noise with one signal in it ---------- */
 
-  if (window.matchMedia("(hover: hover)").matches) {
-    document.addEventListener("pointermove", function (event) {
-      var card = event.target.closest && event.target.closest(".spotlight");
-      if (!card) return;
-      var rect = card.getBoundingClientRect();
-      card.style.setProperty("--mx", (event.clientX - rect.left) + "px");
-      card.style.setProperty("--my", (event.clientY - rect.top) + "px");
-    }, { passive: true });
-  }
-
-  /* ---------- Detection pipeline simulation ---------- */
-
-  var canvas = document.getElementById("pipeline-canvas");
-  if (canvas && canvas.getContext) {
-    var ctx = canvas.getContext("2d");
-    var counts = {
-      events: document.getElementById("count-events"),
-      alerts: document.getElementById("count-alerts"),
-      incidents: document.getElementById("count-incidents")
-    };
-    var total = { events: 0, alerts: 0, incidents: 0 };
-    var rand = Math.random;
+  var fieldCanvas = document.getElementById("hero-field");
+  if (fieldCanvas && fieldCanvas.getContext) {
+    var ctx = fieldCanvas.getContext("2d");
+    var fieldRand = seeded(11);
+    var GAP = 36;
+    var dots = [];
     var colors = {};
-    var particles = [];
-    var cases = [];
     var width = 0;
     var height = 0;
-    var dpr = 1;
-    var spawnDebt = 0;
+    var cols = 0;
+    var rows = 0;
+    var signal = { col: 0, row: 0, born: 0 };
+    var pointer = { x: -999, y: -999 };
     var running = false;
-    var lastTime = 0;
-    var lastCounterUpdate = 0;
-    var clock = 0;
+    var lastFrame = 0;
 
     function readColors() {
       var style = getComputedStyle(root);
-      colors.raw = style.getPropertyValue("--ink-3").trim();
-      colors.alert = style.getPropertyValue("--sev-med").trim();
-      colors.incident = style.getPropertyValue("--sev-high").trim();
-      colors.accent = style.getPropertyValue("--accent").trim();
-      colors.line = style.getPropertyValue("--line-strong").trim();
-      colors.label = style.getPropertyValue("--ink-2").trim();
+      colors.ink = style.getPropertyValue("--ink").trim();
+      colors.signal = style.getPropertyValue("--signal").trim();
+    }
+
+    function placeSignal(now) {
+      // Keep the signal on the right-hand side, clear of the headline on wide screens.
+      var minCol = width >= 960 ? Math.floor(cols * 0.55) : Math.floor(cols * 0.2);
+      signal.col = minCol + Math.floor(Math.random() * Math.max(1, cols - minCol - 1));
+      signal.row = 1 + Math.floor(Math.random() * Math.max(1, Math.min(rows - 2, 7)));
+      signal.born = now;
     }
 
     function resize() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = fieldCanvas.clientWidth;
+      height = fieldCanvas.clientHeight;
+      fieldCanvas.width = Math.round(width * dpr);
+      fieldCanvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function geometry() {
-      return {
-        det: width * 0.36,
-        tri: width * 0.62,
-        inc: width * 0.84,
-        top: 40,
-        bottom: height - 16
-      };
-    }
-
-    function spawn(g) {
-      var speed = (55 + rand() * 55) * Math.max(0.7, width / 640);
-      particles.push({
-        x: -4,
-        y: g.top + rand() * (g.bottom - g.top),
-        vx: speed,
-        phase: rand() * Math.PI * 2,
-        state: "raw",
-        alpha: 0.55 + rand() * 0.35,
-        size: 1.4 + rand() * 1.1,
-        fading: false
-      });
-      total.events++;
-    }
-
-    function update(dt) {
-      var g = geometry();
-      clock += dt;
-      spawnDebt += dt * 46 * Math.max(0.6, width / 640);
-      while (spawnDebt >= 1 && particles.length < 280) { spawn(g); spawnDebt -= 1; }
-      if (spawnDebt > 1) spawnDebt = 0;
-
-      for (var i = particles.length - 1; i >= 0; i--) {
-        var p = particles[i];
-        p.x += p.vx * dt;
-        p.y += Math.sin(clock * 2 + p.phase) * 6 * dt;
-
-        if (p.state === "raw" && !p.fading && p.x >= g.det) {
-          if (rand() < 0.1) {
-            p.state = "alert";
-            p.size = 2.8;
-            p.alpha = 1;
-            p.vx *= 0.8;
-            total.alerts++;
-          } else {
-            p.fading = true;
-            p.vx *= 0.45;
-          }
-        } else if (p.state === "alert" && !p.fading && p.x >= g.tri) {
-          if (rand() < 0.15) {
-            p.state = "incident";
-            p.size = 3.6;
-            p.targetY = height * 0.5 + (rand() - 0.5) * (height * 0.35);
-            p.vx *= 0.7;
-          } else {
-            p.fading = true;
-            p.vx *= 0.5;
-          }
-        } else if (p.state === "incident") {
-          p.y += (p.targetY - p.y) * Math.min(1, dt * 3);
-          if (p.x >= g.inc) {
-            cases.push({ x: p.x, y: p.y, age: 0 });
-            total.incidents++;
-            particles.splice(i, 1);
-            continue;
-          }
+      cols = Math.ceil(width / GAP) + 1;
+      rows = Math.ceil(height / GAP) + 1;
+      dots = [];
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          dots.push({ x: c * GAP + 8, y: r * GAP + 8, phase: fieldRand() * 6.283, speed: 0.4 + fieldRand() * 0.9 });
         }
-
-        if (p.fading) p.alpha -= dt * 1.6;
-        if (p.alpha <= 0 || p.x > width + 10) particles.splice(i, 1);
       }
-
-      for (var j = cases.length - 1; j >= 0; j--) {
-        cases[j].age += dt;
-        if (cases[j].age > 5) cases.splice(j, 1);
-      }
+      placeSignal(performance.now());
     }
 
-    function draw() {
-      var g = geometry();
+    function draw(now) {
+      var t = now / 1000;
       ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = colors.ink;
+      for (var i = 0; i < dots.length; i++) {
+        var d = dots[i];
+        var alpha = 0.07 + 0.07 * Math.sin(t * d.speed + d.phase);
+        var dx = d.x - pointer.x;
+        var dy = d.y - pointer.y;
+        var near = dx * dx + dy * dy;
+        if (near < 19600) alpha += 0.32 * (1 - near / 19600);
+        ctx.globalAlpha = alpha;
+        ctx.fillRect(d.x - 0.75, d.y - 0.75, 1.5, 1.5);
+      }
 
-      // Detection and triage gates
-      [g.det, g.tri].forEach(function (x, i) {
-        var band = ctx.createLinearGradient(x - 28, 0, x + 4, 0);
-        band.addColorStop(0, "transparent");
-        band.addColorStop(1, i === 0 ? colors.accent : colors.alert);
-        ctx.globalAlpha = 0.12;
-        ctx.fillStyle = band;
-        ctx.fillRect(x - 28, g.top - 8, 32, g.bottom - g.top + 8);
-        ctx.globalAlpha = 0.9;
-        ctx.strokeStyle = colors.line;
-        ctx.setLineDash([3, 5]);
-        ctx.beginPath();
-        ctx.moveTo(x + 0.5, g.top - 8);
-        ctx.lineTo(x + 0.5, g.bottom);
-        ctx.stroke();
-      });
-      ctx.setLineDash([]);
-
-      // Stage labels
-      var small = width < 420;
+      var age = (now - signal.born) / 1000;
+      var life = 7;
+      var fade = Math.min(1, age / 0.8) * clamp01((life - age) / 0.8);
+      var sx = signal.col * GAP + 8;
+      var sy = signal.row * GAP + 8;
+      ctx.fillStyle = colors.signal;
+      ctx.strokeStyle = colors.signal;
+      ctx.globalAlpha = fade;
+      ctx.beginPath();
+      ctx.arc(sx, sy, 3, 0, 6.283);
+      ctx.fill();
+      var ring = (age % 2.2) / 2.2;
+      ctx.globalAlpha = fade * (1 - ring) * 0.7;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(sx, sy, 3 + ring * 26, 0, 6.283);
+      ctx.stroke();
       ctx.globalAlpha = 1;
-      ctx.fillStyle = colors.label;
-      ctx.font = (small ? "500 10px " : "500 11px ") + '"Geist Mono", ui-monospace, monospace';
-      ctx.textBaseline = "middle";
-      ctx.textAlign = "left";
-      ctx.fillText("Telemetry", 14, 20);
-      ctx.fillText("Detection", g.det + 8, 20);
-      ctx.fillText("Triage", g.tri + 8, 20);
-      ctx.textAlign = "right";
-      ctx.fillText("Incident", width - 12, 20);
-      ctx.textAlign = "left";
-
-      // Particles
-      particles.forEach(function (p) {
-        var color = p.state === "raw" ? colors.raw : p.state === "alert" ? colors.alert : colors.incident;
-        ctx.globalAlpha = Math.max(0, p.alpha) * (p.state === "raw" ? 0.75 : 1);
-        ctx.strokeStyle = color;
-        ctx.lineWidth = p.size;
-        ctx.lineCap = "round";
-        ctx.beginPath();
-        ctx.moveTo(p.x - p.vx * (p.state === "raw" ? 0.05 : 0.08), p.y);
-        ctx.lineTo(p.x, p.y);
-        ctx.stroke();
-        if (p.state === "incident") {
-          ctx.shadowColor = colors.incident;
-          ctx.shadowBlur = 14;
-          ctx.fillStyle = colors.incident;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        }
-      });
-
-      // Escalated incidents pulse, then fade
-      cases.forEach(function (c) {
-        var life = c.age / 5;
-        ctx.globalAlpha = 1 - life;
-        ctx.fillStyle = colors.incident;
-        ctx.beginPath();
-        ctx.arc(c.x, c.y, 4, 0, Math.PI * 2);
-        ctx.fill();
-        var ring = (c.age % 1.2) / 1.2;
-        ctx.globalAlpha = (1 - ring) * (1 - life) * 0.8;
-        ctx.strokeStyle = colors.incident;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.arc(c.x, c.y, 4 + ring * 16, 0, Math.PI * 2);
-        ctx.stroke();
-      });
-      ctx.globalAlpha = 1;
-    }
-
-    function renderCounts() {
-      counts.events.textContent = total.events.toLocaleString("en-US");
-      counts.alerts.textContent = total.alerts.toLocaleString("en-US");
-      counts.incidents.textContent = total.incidents.toLocaleString("en-US");
+      if (age > life) placeSignal(now);
     }
 
     function frame(now) {
       if (!running) return;
-      var dt = Math.min(0.05, (now - lastTime) / 1000);
-      lastTime = now;
-      update(dt);
-      draw();
-      if (now - lastCounterUpdate > 120) { renderCounts(); lastCounterUpdate = now; }
+      if (now - lastFrame > 32) { lastFrame = now; draw(now); }
       requestAnimationFrame(frame);
     }
-
-    function start() {
-      if (running || reduceMotion) return;
-      if (canvas.clientWidth !== width) resize();
-      running = true;
-      lastTime = performance.now();
-      requestAnimationFrame(frame);
-    }
+    function start() { if (!running && !reduceMotion) { running = true; requestAnimationFrame(frame); } }
     function stop() { running = false; }
 
     readColors();
     resize();
-
     if (reduceMotion) {
-      // A still frame of a pipeline already in motion.
-      for (var s = 0; s < 400; s++) update(1 / 30);
-      draw();
-      renderCounts();
+      signal.born = performance.now() - 2000;
+      draw(performance.now());
     } else {
-      // Warm up so the first frame already shows a full pipeline.
-      for (var w = 0; w < 160; w++) update(1 / 30);
-      var canvasVisible = true;
+      var fieldVisible = true;
       if ("IntersectionObserver" in window) {
         new IntersectionObserver(function (entries) {
-          canvasVisible = entries[0].isIntersecting;
-          if (canvasVisible && !document.hidden) start(); else stop();
-        }).observe(canvas);
+          fieldVisible = entries[0].isIntersecting;
+          if (fieldVisible && !document.hidden) start(); else stop();
+        }).observe(fieldCanvas);
       } else {
         start();
       }
       document.addEventListener("visibilitychange", function () {
-        if (document.hidden) stop(); else if (canvasVisible) start();
+        if (document.hidden) stop(); else if (fieldVisible) start();
       });
+      if (window.matchMedia("(hover: hover)").matches) {
+        var hero = fieldCanvas.parentElement;
+        hero.addEventListener("pointermove", function (event) {
+          var rect = fieldCanvas.getBoundingClientRect();
+          pointer.x = event.clientX - rect.left;
+          pointer.y = event.clientY - rect.top;
+        }, { passive: true });
+        hero.addEventListener("pointerleave", function () { pointer.x = pointer.y = -999; });
+      }
     }
 
     var resizeTimer;
     window.addEventListener("resize", function () {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function () {
+        if (fieldCanvas.clientWidth === width && fieldCanvas.clientHeight === height) return;
         resize();
-        if (!running) draw();
-      }, 120);
+        if (!running) draw(performance.now());
+      }, 150);
     });
-
     themeListeners.push(function () {
       readColors();
-      if (!running) draw();
+      if (!running) draw(performance.now());
     });
   }
 
-  /* ---------- Alert-noise chart ---------- */
+  /* ---------- Alert tuning: noise fades, signal stays ---------- */
 
   var field = document.getElementById("noise-field");
   var stageButtons = document.querySelectorAll(".segmented button");
@@ -476,7 +382,7 @@
       var cell = document.createElement("i");
       cell.dataset.sev = spec.sev;
       cell.className = "on";
-      cell.style.setProperty("--d", Math.round(noiseRand() * 600) + "ms");
+      cell.style.setProperty("--d", Math.round(noiseRand() * 700) + "ms");
       cell._keep = spec.keep;
       cells.push(cell);
       fragment.appendChild(cell);
@@ -507,8 +413,8 @@
   // Play the tuning story once, the first time the chart is on screen.
   if (field && !reduceMotion) {
     onVisible(field, function () {
-      noiseTimers.push(setTimeout(function () { setNoiseStage(1); }, 1200));
-      noiseTimers.push(setTimeout(function () { setNoiseStage(2); }, 3000));
+      noiseTimers.push(setTimeout(function () { setNoiseStage(1); }, 1300));
+      noiseTimers.push(setTimeout(function () { setNoiseStage(2); }, 3300));
     }, 0.5);
   }
 
